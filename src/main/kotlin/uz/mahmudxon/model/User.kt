@@ -9,6 +9,7 @@ data class User(
     val email: String?,
     val phone: String?,
     val password: String,
+    val imgUrl: String?,
     val role: Int
 ) {
     object Role {
@@ -24,6 +25,7 @@ object Users : Table("users") {
     val email = varchar("email", 255)
     val phone = varchar("phone", 255)
     val password = varchar("password", 255)
+    val imgUrl = varchar("imgUrl", 255)
     val role = integer("role")
 
     override val primaryKey = PrimaryKey(id)
