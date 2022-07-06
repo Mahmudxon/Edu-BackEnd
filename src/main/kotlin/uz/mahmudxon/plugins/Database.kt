@@ -9,8 +9,10 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import uz.mahmudxon.model.*
 
 fun Application.configureDatabase() {
-    val database = Database.connect("jdbc:postgresql://localhost:5432/edu", driver = "org.postgresql.Driver",
-        user = "postgres", password = "1111")
+    val database = Database.connect(
+        "jdbc:postgresql://localhost:5432/edu", driver = "org.postgresql.Driver",
+        user = "postgres", password = "1111"
+    )
     transaction(database)
     {
         SchemaUtils.create(Users, Subjects, Lessons, Topics, Contents, Languages)

@@ -1,20 +1,18 @@
 package uz.mahmudxon.plugins
 
-import io.ktor.server.auth.*
-import io.ktor.util.*
-import io.ktor.server.auth.jwt.*
 import com.auth0.jwt.JWT
-import com.auth0.jwt.JWTVerifier
 import com.auth0.jwt.algorithms.Algorithm
-import io.ktor.server.sessions.*
 import io.ktor.client.*
 import io.ktor.client.engine.apache.*
-import io.ktor.server.locations.*
 import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.auth.*
+import io.ktor.server.auth.jwt.*
 import io.ktor.server.response.*
-import io.ktor.server.request.*
 import io.ktor.server.routing.*
+import io.ktor.server.sessions.*
+import kotlin.collections.listOf
+import kotlin.collections.set
 
 fun Application.configureSecurity() {
 
@@ -23,11 +21,11 @@ fun Application.configureSecurity() {
             val jwtAudience = this@configureSecurity.environment.config.property("jwt.audience").getString()
             realm = this@configureSecurity.environment.config.property("jwt.realm").getString()
             verifier(
-                    JWT
-                            .require(Algorithm.HMAC256("secret"))
-                            .withAudience(jwtAudience)
-                            .withIssuer(this@configureSecurity.environment.config.property("jwt.domain").getString())
-                            .build()
+                JWT
+                    .require(Algorithm.HMAC256("secret"))
+                    .withAudience(jwtAudience)
+                    .withIssuer(this@configureSecurity.environment.config.property("jwt.domain").getString())
+                    .build()
             )
             validate { credential ->
                 if (credential.payload.audience.contains(jwtAudience)) JWTPrincipal(credential.payload) else null
@@ -45,13 +43,13 @@ fun Application.configureSecurity() {
             urlProvider = { "http://localhost:8080/callback" }
             providerLookup = {
                 OAuthServerSettings.OAuth2ServerSettings(
-                        name = "google",
-                        authorizeUrl = "https://accounts.google.com/o/oauth2/auth",
-                        accessTokenUrl = "https://accounts.google.com/o/oauth2/token",
-                        requestMethod = HttpMethod.Post,
-                        clientId = System.getenv("GOOGLE_CLIENT_ID"),
-                        clientSecret = System.getenv("GOOGLE_CLIENT_SECRET"),
-                        defaultScopes = listOf("https://www.googleapis.com/auth/userinfo.profile")
+                    name = "google",
+                    authorizeUrl = "https://accounts.google.com/o/oauth2/auth",
+                    accessTokenUrl = "https://accounts.google.com/o/oauth2/token",
+                    requestMethod = HttpMethod.Post,
+                    clientId = System.getenv("GOOGLE_CLIENT_ID"),
+                    clientSecret = System.getenv("GOOGLE_CLIENT_SECRET"),
+                    defaultScopes = listOf("https://www.googleapis.com/auth/userinfo.profile")
                 )
             }
             client = HttpClient(Apache)
