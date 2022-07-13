@@ -5,6 +5,8 @@ import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.transactions.transaction
+import uz.mahmudxon.dao.UserDAO
+import uz.mahmudxon.dao.UserDaoImpl
 import uz.mahmudxon.model.*
 
 object DatabaseFactory {
@@ -30,4 +32,6 @@ object DatabaseFactory {
 
     suspend fun <T> dbQuery(block: suspend () -> T): T =
         newSuspendedTransaction(Dispatchers.IO) { block() }
+
+    fun getUserDao(): UserDAO = UserDaoImpl()
 }
