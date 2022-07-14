@@ -18,10 +18,11 @@ data class User(
     }
 }
 
+
 object Users : Table("users") {
     val id = integer("id").autoIncrement()
     val name = varchar("name", 255)
-    val username = varchar("username", 255)
+    val username = varchar("username", 255).uniqueIndex()
     val email = varchar("email", 255)
     val phone = varchar("phone", 255)
     val password = varchar("password", 255)

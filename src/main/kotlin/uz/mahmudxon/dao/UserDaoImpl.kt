@@ -17,12 +17,21 @@ class UserDaoImpl : UserDAO {
             .map(::tableToUser)
     }
 
-    override suspend fun insertUser(username: String, password: String, phone: String, email: String): User? = dbQuery {
+    override suspend fun insertUser(
+        name: String,
+        username: String,
+        password: String,
+        phone: String,
+        email: String
+    ): User? = dbQuery {
         val insertStatement = Users.insert {
+            it[Users.name] = name
             it[Users.username] = username
             it[Users.password] = password
             it[Users.phone] = phone
             it[Users.email] = email
+            it[imgUrl] = ""
+            it[role] = User.Role.USER
         }
         insertStatement.resultedValues?.singleOrNull()?.let(::tableToUser)
     }
