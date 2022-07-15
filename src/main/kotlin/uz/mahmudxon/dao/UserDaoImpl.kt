@@ -12,10 +12,14 @@ class UserDaoImpl : UserDAO {
             .singleOrNull()
     }
 
-    override suspend fun getUsers(): List<User> = dbQuery {
-        Users.selectAll()
-            .map(::tableToUser)
-    }!!
+    override suspend fun getUsers(): List<User> {
+        val result = ArrayList<User>()
+        dbQuery {
+            Users.selectAll()
+                .map(::tableToUser)
+        }?.let { result.addAll(it) }
+        return result
+    }
 
     override suspend fun insertUser(
         name: String,
