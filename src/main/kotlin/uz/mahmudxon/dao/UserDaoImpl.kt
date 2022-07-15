@@ -15,7 +15,7 @@ class UserDaoImpl : UserDAO {
     override suspend fun getUsers(): List<User> = dbQuery {
         Users.selectAll()
             .map(::tableToUser)
-    }
+    }!!
 
     override suspend fun insertUser(
         name: String,

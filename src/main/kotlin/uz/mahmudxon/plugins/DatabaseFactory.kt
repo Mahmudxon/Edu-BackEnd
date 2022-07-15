@@ -12,26 +12,25 @@ import uz.mahmudxon.model.*
 object DatabaseFactory {
     fun init() {
         val database = Database.connect(
-            "jdbc:postgresql://localhost:5432/edu", driver = "org.postgresql.Driver",
-            user = "postgres", password = "1111"
+            "jdbc:postgresql://localhost:5432/edu",
+            driver = "org.postgresql.Driver",
+            user = "postgres",
+            password = "1111"
         )
-        transaction(database)
-        {
+        transaction(database) {
             SchemaUtils.create(
-                Users,
-                Subjects,
-                Lessons,
-                Topics,
-                Contents,
-                Languages,
-                Devices,
-                Sessions
+                Users, Subjects, Lessons, Topics, Contents, Languages, Devices, Sessions
             )
         }
     }
 
-    suspend fun <T> dbQuery(block: suspend () -> T): T =
-        newSuspendedTransaction(Dispatchers.IO) { block() }
+    suspend fun <T> dbQuery(block: suspend () -> T): T? = newSuspendedTransaction(Dispatchers.IO) {
+        try {
+            block()
+        } catch (e: Exception) {
+            null
+        }
+    }
 
     fun getUserDao(): UserDAO = UserDaoImpl()
 }
