@@ -5,14 +5,13 @@ import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.transactions.transaction
-import uz.mahmudxon.dao.UserDAO
-import uz.mahmudxon.dao.UserDaoImpl
 import uz.mahmudxon.model.*
+import uz.mahmudxon.util.TransActionData
 
 object DatabaseFactory {
     fun init() {
         val database = Database.connect(
-            "jdbc:postgresql://localhost:5432/edu",
+            url = "jdbc:postgresql://localhost:5432/edu",
             driver = "org.postgresql.Driver",
             user = "postgres",
             password = "1111"
@@ -24,13 +23,13 @@ object DatabaseFactory {
         }
     }
 
-    suspend fun <T> dbQuery(block: suspend () -> T): T? = newSuspendedTransaction(Dispatchers.IO) {
-        try {
-            block()
-        } catch (e: Exception) {
-            null
+    suspend fun <T : Any> dbQuery(block: suspend () -> T): TransActionData<T> =
+        newSuspendedTransaction(Dispatchers.IO) {
+            try {
+                val data = block()
+                TransActionData.Success(data)
+            } catch (e: Exception) {
+                TransActionData.Error(e)
+            }
         }
-    }
-
-    fun getUserDao(): UserDAO = UserDaoImpl()
 }
