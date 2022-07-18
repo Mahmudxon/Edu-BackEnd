@@ -6,7 +6,6 @@ import uz.mahmudxon.plugins.DatabaseFactory
 import uz.mahmudxon.plugins.configureRouting
 import uz.mahmudxon.plugins.configureSerialization
 
-
 fun main() {
     embeddedServer(Netty, port = 8080, host = "0.0.0.0") {
         configureRouting()

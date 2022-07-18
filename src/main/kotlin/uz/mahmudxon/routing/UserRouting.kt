@@ -5,7 +5,7 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import uz.mahmudxon.dao.UserDAO
+import uz.mahmudxon.db.dao.UserDAO
 import uz.mahmudxon.util.TransActionData
 import uz.mahmudxon.util.respondError
 

@@ -1,4 +1,4 @@
-package uz.mahmudxon.dao
+package uz.mahmudxon.db.dao
 
 import org.jetbrains.exposed.sql.*
 import uz.mahmudxon.model.User

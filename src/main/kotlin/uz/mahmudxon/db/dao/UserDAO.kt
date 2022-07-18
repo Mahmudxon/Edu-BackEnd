@@ -1,4 +1,4 @@
-package uz.mahmudxon.dao
+package uz.mahmudxon.db.dao
 
 import uz.mahmudxon.model.User
 import uz.mahmudxon.util.TransActionData

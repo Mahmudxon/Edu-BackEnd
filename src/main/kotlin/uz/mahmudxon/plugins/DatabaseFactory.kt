@@ -5,16 +5,17 @@ import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.transactions.transaction
+import uz.mahmudxon.db.DbConfig
 import uz.mahmudxon.model.*
 import uz.mahmudxon.util.TransActionData
 
 object DatabaseFactory {
     fun init() {
         val database = Database.connect(
-            url = "jdbc:postgresql://localhost:5432/edu",
-            driver = "org.postgresql.Driver",
-            user = "postgres",
-            password = "1111"
+            url = DbConfig.dbUrl,
+            driver = DbConfig.dbDriver,
+            user = DbConfig.dbUser,
+            password = DbConfig.dbPassword
         )
         transaction(database) {
             SchemaUtils.create(
