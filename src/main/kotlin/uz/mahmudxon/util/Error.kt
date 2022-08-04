@@ -6,6 +6,6 @@ import io.ktor.server.response.*
 
 data class ErrorResponse(val errorCode: Int, val errorMessage: String)
 
-suspend fun ApplicationCall.respondError(code: HttpStatusCode, errorMessage: String) {
-    this.respond(ErrorResponse(code.value, errorMessage))
+suspend fun ApplicationCall.respondError(code: HttpStatusCode, errorMessage: String?) {
+    this.respond(ErrorResponse(errorCode = code.value, errorMessage = "$errorMessage"))
 }

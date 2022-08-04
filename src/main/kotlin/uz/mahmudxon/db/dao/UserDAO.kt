@@ -8,4 +8,5 @@ interface UserDAO {
     suspend fun getUsers(): TransActionData<List<User>>
     suspend fun insertUser(user: User): TransActionData<User>
     suspend fun updateUser(user: User): TransActionData<User>
+    suspend fun login(username: String, password: String): TransActionData<User>
 }

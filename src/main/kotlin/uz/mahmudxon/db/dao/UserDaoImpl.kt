@@ -44,6 +44,15 @@ class UserDaoImpl : UserDAO {
         return getUser(user.id)
     }
 
+    override suspend fun login(username: String, password: String): TransActionData<User> {
+        return dbQuery {
+            Users.select {
+                Users.username eq username and (Users.password eq password)
+            }.map(::tableToUser).singleOrNull()
+                ?: throw IllegalArgumentException("$username not found")
+        }
+    }
+
 
     private fun tableToUser(row: ResultRow): User {
         return User(
